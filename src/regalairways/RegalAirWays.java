@@ -17,7 +17,7 @@ public class RegalAirWays {
     public static void main(String[] args) {
         
         new MainMenu().setVisible(true);
-        new Connect();
+       
         
         
     }
