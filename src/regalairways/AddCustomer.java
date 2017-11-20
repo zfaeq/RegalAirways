@@ -1,5 +1,12 @@
 package regalairways;
-
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -20,6 +27,9 @@ String Zip;
 String Phone;
 String Email;
 String Member;
+
+PreparedStatement pst;
+Connection con ;
 
     /**
      * Creates new form AddCustomer
@@ -96,6 +106,11 @@ String Member;
         email.setName("email"); // NOI18N
 
         submit.setText("Submit");
+        submit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submitActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -199,21 +214,78 @@ String Member;
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-     
-        
-        
-        
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AddCustomer().setVisible(true);
-            }
-        });
+    private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
+    
+    try {
+        // Submit Button
+        // Establish Connection to Database
+        con = new Connect().getConnection();
+    } catch (Exception ex) {
+        Logger.getLogger(AddCustomer.class.getName()).log(Level.SEVERE, null, ex);
     }
+  
+        // Get Data
+        getCustomerData();
+        // Check For Empty Fields
+        
+        if (firstName!= null && LastName!= null && Street!= null &&
+            City!= null && State!= null && Zip!= null && Email!= null && 
+            Member!= null){
+            try {
+                // if all good, execute query
+         
+              String InsertQuery = "INSERT INTO `regalairways`.`customers2` (`Fname`, `Lname`, `StreetNo`, `City`, `State`, `Zip`, `Phone`, `Email`, `Member`) VALUES (?,?,?,?,?,?,?,?,?)";
+              pst = con.prepareStatement(InsertQuery);
+             
+              pst.setString(1, firstName);
+              pst.setString(2, LastName);
+              pst.setString(3, Street);
+              pst.setString(4, City);
+              pst.setString(5, State);
+              pst.setString(6, Zip);
+              pst.setString(7, Phone);
+              pst.setString(8, Email);
+              pst.setString(9, Member);
+             
+              pst.executeUpdate();
+                JOptionPane.showMessageDialog(null,"Customer Added Successfully" );
+            
+                
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(AddCustomer.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else {
+            System.out.println("One or more fields are missing");
+        }
+    }//GEN-LAST:event_submitActionPerformed
+// Grab Customer Data from text fields and strore it in variables
+    public void getCustomerData(){
+    firstName = fname.getText();
+    LastName =  lname.getText();
+    Street = street.getText();
+    City = city.getText();
+    State = state.getText();
+    Zip = zip.getText();
+    Phone= phone.getText();
+    Email = email.getText();
+    Member = member.getText();
+}
 
+/*
+    void print(){
+    getCustomerData();
+    if (firstName!= null && LastName!= null && Street!= null &&
+            City!= null && State!= null && Zip!= null && Email!= null && 
+            Member!= null){
+        System.out.println(firstName + " " +LastName+ " "+Street+  " " + City
+        + " " + State+ " " + Zip+ " " + Email+ " " + Member);
+        }
+
+
+}
+*/
     
  
     // Variables declaration - do not modify//GEN-BEGIN:variables
