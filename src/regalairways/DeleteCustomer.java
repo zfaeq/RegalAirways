@@ -95,7 +95,7 @@ public class DeleteCustomer extends javax.swing.JFrame {
             statement = con.createStatement();
             
             // query the database for all customer information
-            String getData="SELECT * FROM customers2";
+            String getData="SELECT * FROM customers";
             rs= statement.executeQuery(getData);
         } catch (Exception ex) {
             Logger.getLogger(DeleteCustomer.class.getName()).log(Level.SEVERE, null, ex);
@@ -117,14 +117,17 @@ public class DeleteCustomer extends javax.swing.JFrame {
   
     if (response == JOptionPane.YES_OPTION) {
       // YES OPTION CODE
-      String DeleteQuery = "DELETE FROM customers2 WHERE Phone ="+EnteredPhone;
+      String DeleteQuery = "DELETE FROM customers WHERE Phone ="+EnteredPhone;
        statement.executeUpdate(DeleteQuery);
        JOptionPane.showMessageDialog(null,"Customer Deleted Successfully" );
        phone.setText("");
     } 
                         
                     }
-                    
+                    else {
+                        // if entered phone doesnt match a record
+                        JOptionPane.showMessageDialog(null,"Customer not found" );
+                    }
                     
                 }  
             } catch (SQLException ex) {
