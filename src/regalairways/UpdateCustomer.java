@@ -7,9 +7,11 @@ package regalairways;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -72,7 +74,7 @@ String enteredPhone;
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Customer Phone No.");
+        jLabel1.setText("Customer Phone:");
 
         jButton1.setText("Get info");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -122,8 +124,9 @@ String enteredPhone;
                         .addGap(31, 31, 31)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
                                 .addComponent(jLabel1)
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(PhoneToLookup, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(158, 158, 158)
@@ -218,6 +221,7 @@ String enteredPhone;
             // query the database for all customer information
             String query="SELECT * FROM customers WHERE Phone ="+enteredPhone;
             
+            
             if (enteredPhone!=null){
             rs= statement.executeQuery(query);
             }
@@ -249,9 +253,38 @@ String enteredPhone;
     }//GEN-LAST:event_cityActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        // Update button
+        // get customer information from the text fields
+        getInfo();
+        // update query
+        String updateQuery="UPDATE customers SET Fname= "+"\""+ firstName+"\""+", Lname=" +"\""+LastName +"\""+", City=" +"\""+City+"\""+", State=" +"\""+State+"\""+", Zip="+"\""+Zip+"\""+", Phone="+"\""+Phone+"\""+", Email="+"\""+Email+"\""+", Member="+"\""+Member+"\""+" WHERE Phone ="+"\""+Phone+"\"" ;
+    
+        try {
+            
+        statement.executeUpdate(updateQuery);
+          JOptionPane.showMessageDialog(null,"Customer Information Updated Successfully" );
+    } catch (SQLException ex) {
+        Logger.getLogger(UpdateCustomer.class.getName()).log(Level.SEVERE, null, ex);
+          JOptionPane.showMessageDialog(null,"Failed to Update information" );
+    }
+        
+     
+        
+        
     }//GEN-LAST:event_jButton2ActionPerformed
-
+   
+        public void getInfo(){
+        // gets customer information and stores it in variables
+        firstName = fname.getText();
+    LastName =  lname.getText();
+    Street = street.getText();
+    City = city.getText();
+    State = state.getText();
+    Zip = zip.getText();
+    Phone= phone.getText();
+    Email = email.getText();
+    Member = member.getText();
+    }
     /**
      
      */
