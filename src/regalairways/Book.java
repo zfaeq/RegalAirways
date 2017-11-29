@@ -5,17 +5,82 @@
  */
 package regalairways;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ButtonGroup;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Dimas
  */
 public class Book extends javax.swing.JFrame {
 
+    Statement statement;
+    Connection con;
+    
+    String frID;
+    String cID;
+    String rID;
+    String eID;
+    String departureTime;
+    String arrivalTime;
+    String qty;
+    String typeOfFlight;
+    String flightWay;
+    
+    String customerPhone;
+    String fName;
+    String lName;
+    
+    String price;
+    String toAID;
+    String fromAID;
+    
+    String fromAirport;
+    String toAirport;
+    
+    String bID;
+    String totalPrice;
+    String paymentType;
+    String carryOn;
+    
+    String classType;
+    
+    ResultSet rs;
+    
+    ButtonGroup bGroup = new ButtonGroup();
+    ButtonGroup discountGroup = new ButtonGroup();
+    ButtonGroup yesNoGroup = new ButtonGroup();
+    ButtonGroup paymentTypeGroup = new ButtonGroup();
+    
     /**
      * Creates new form Book
      */
     public Book() {
         initComponents();
+        
+         String airCodeQuery = "SELECT airportCode FROM airports";
+         
+        try {
+            con = new Connect().getConnection();
+            statement = con.createStatement();
+            
+            //add data to From and To jcombobox
+            rs = statement.executeQuery(airCodeQuery);
+            while(rs.next()){
+                toBox.addItem(rs.getString(1));
+                fromBox.addItem(rs.getString(1));
+            }
+            
+        } catch (Exception ex) {
+            Logger.getLogger(Book.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
     }
 
     /**
@@ -27,22 +92,670 @@ public class Book extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        enterPhoneLabel = new javax.swing.JLabel();
+        phoneTextField = new javax.swing.JTextField();
+        fromLabel = new javax.swing.JLabel();
+        fromBox = new javax.swing.JComboBox();
+        toLabel = new javax.swing.JLabel();
+        toBox = new javax.swing.JComboBox();
+        departureField = new javax.swing.JTextField();
+        arrivalField = new javax.swing.JTextField();
+        arrivalLabel = new javax.swing.JLabel();
+        departureLabel = new javax.swing.JLabel();
+        qtyLabel = new javax.swing.JLabel();
+        typeOfFlightLabel = new javax.swing.JLabel();
+        flightWayLabel = new javax.swing.JLabel();
+        qtyField = new javax.swing.JTextField();
+        typeOfFlightField = new javax.swing.JTextField();
+        buyTicketButton = new javax.swing.JButton();
+        oneWayRadioButton = new javax.swing.JRadioButton();
+        roundWayRadioButton = new javax.swing.JRadioButton();
+        viewRoutesButton = new javax.swing.JButton();
+        enterRouteInfoLabel = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        paymentTypeLabel = new javax.swing.JLabel();
+        customerPanel = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        firstNameField = new javax.swing.JTextField();
+        lastNameField = new javax.swing.JTextField();
+        employeeDiscountRadioButton = new javax.swing.JRadioButton();
+        holidayDiscountRadioButton = new javax.swing.JRadioButton();
+        veteranDiscountRadioButton = new javax.swing.JRadioButton();
+        otherDiscountRadioButton = new javax.swing.JRadioButton();
+        carryOnTextField = new javax.swing.JLabel();
+        yesRadioButton = new javax.swing.JRadioButton();
+        noRadioButton = new javax.swing.JRadioButton();
+        creditRadioButton = new javax.swing.JRadioButton();
+        debitRadioButton = new javax.swing.JRadioButton();
+        cashRadioButton = new javax.swing.JRadioButton();
+        priceLabel = new javax.swing.JLabel();
+        priceTextField = new javax.swing.JTextField();
+        otherPaymentRadioButton = new javax.swing.JRadioButton();
+        noDiscountRadioButton = new javax.swing.JRadioButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        enterPhoneLabel.setText("Enter Customer Phone Number");
+
+        phoneTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                phoneTextFieldActionPerformed(evt);
+            }
+        });
+
+        fromLabel.setText("From:");
+
+        fromBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fromBoxActionPerformed(evt);
+            }
+        });
+
+        toLabel.setText("To:");
+
+        toBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toBoxActionPerformed(evt);
+            }
+        });
+
+        departureField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                departureFieldActionPerformed(evt);
+            }
+        });
+
+        arrivalField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                arrivalFieldActionPerformed(evt);
+            }
+        });
+
+        arrivalLabel.setText("Arrival time:");
+
+        departureLabel.setText("Departure time:");
+
+        qtyLabel.setText("Qty:");
+
+        typeOfFlightLabel.setText("Type of flight:");
+
+        flightWayLabel.setText("Flight way:");
+
+        qtyField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                qtyFieldActionPerformed(evt);
+            }
+        });
+
+        typeOfFlightField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                typeOfFlightFieldActionPerformed(evt);
+            }
+        });
+
+        buyTicketButton.setText("Buy Ticket");
+        buyTicketButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buyTicketButtonActionPerformed(evt);
+            }
+        });
+
+        oneWayRadioButton.setText("One way");
+
+        roundWayRadioButton.setText("Round way");
+
+        viewRoutesButton.setText("Confirm Route");
+        viewRoutesButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewRoutesButtonActionPerformed(evt);
+            }
+        });
+
+        enterRouteInfoLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        enterRouteInfoLabel.setText("Enter Route Information:");
+
+        jLabel1.setText("Discount:");
+
+        paymentTypeLabel.setText("Payment type:");
+
+        customerPanel.setVisible(false);
+
+        jLabel3.setText("Cust. first name:");
+
+        jLabel4.setText("Cust. last name:");
+
+        firstNameField.setEditable(false);
+        firstNameField.setSelectedTextColor(new java.awt.Color(240, 240, 240));
+
+        lastNameField.setEditable(false);
+
+        javax.swing.GroupLayout customerPanelLayout = new javax.swing.GroupLayout(customerPanel);
+        customerPanel.setLayout(customerPanelLayout);
+        customerPanelLayout.setHorizontalGroup(
+            customerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(customerPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(customerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4))
+                .addGap(18, 18, 18)
+                .addGroup(customerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(firstNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(32, Short.MAX_VALUE))
+        );
+        customerPanelLayout.setVerticalGroup(
+            customerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(customerPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(customerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(firstNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(customerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(lastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(42, Short.MAX_VALUE))
+        );
+
+        employeeDiscountRadioButton.setText("Employee");
+
+        holidayDiscountRadioButton.setText("Holiday");
+
+        veteranDiscountRadioButton.setText("Veteran");
+
+        otherDiscountRadioButton.setText("Other");
+
+        carryOnTextField.setText("Carry-on:");
+
+        yesRadioButton.setText("Yes");
+
+        noRadioButton.setText("No");
+
+        creditRadioButton.setText("Credit");
+
+        debitRadioButton.setText("Debit");
+
+        cashRadioButton.setText("Cash");
+
+        priceLabel.setText("Price:");
+
+        priceTextField.setEditable(false);
+
+        otherPaymentRadioButton.setText("Other");
+
+        noDiscountRadioButton.setText("None");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 633, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(enterRouteInfoLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(arrivalLabel)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(arrivalField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(177, 177, 177)
+                                .addComponent(jLabel1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(258, 258, 258)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(phoneTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(enterPhoneLabel)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(fromLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fromBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(33, 33, 33)
+                                .addComponent(toLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(toBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(39, 39, 39)
+                                .addComponent(viewRoutesButton))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(departureLabel)
+                                .addGap(18, 18, 18)
+                                .addComponent(departureField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(customerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(employeeDiscountRadioButton)
+                                    .addComponent(holidayDiscountRadioButton))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(otherDiscountRadioButton)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(veteranDiscountRadioButton)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(noDiscountRadioButton))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(yesRadioButton)
+                                .addGap(18, 18, 18)
+                                .addComponent(noRadioButton))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(flightWayLabel)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(roundWayRadioButton)
+                                    .addComponent(oneWayRadioButton)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(qtyLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(qtyField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(typeOfFlightLabel)
+                                .addGap(18, 18, 18)
+                                .addComponent(typeOfFlightField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(168, 168, 168)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(carryOnTextField)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(paymentTypeLabel)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(creditRadioButton)
+                                    .addComponent(debitRadioButton))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(otherPaymentRadioButton)
+                                    .addComponent(cashRadioButton))))))
+                .addContainerGap(70, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(290, 290, 290)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(priceLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(priceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(buyTicketButton, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 404, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(enterPhoneLabel)
+                                .addGap(1, 1, 1)
+                                .addComponent(phoneTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(fromLabel)
+                                    .addComponent(fromBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(toLabel)
+                                    .addComponent(toBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(viewRoutesButton))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(enterRouteInfoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(customerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(17, 17, 17)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(arrivalLabel)
+                            .addComponent(arrivalField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1)
+                            .addComponent(employeeDiscountRadioButton)
+                            .addComponent(veteranDiscountRadioButton)
+                            .addComponent(noDiscountRadioButton))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(departureLabel)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(departureField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(holidayDiscountRadioButton)
+                                .addComponent(otherDiscountRadioButton)))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(qtyLabel)
+                                    .addComponent(qtyField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(33, 33, 33))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(carryOnTextField)
+                                    .addComponent(yesRadioButton)
+                                    .addComponent(noRadioButton))
+                                .addGap(18, 18, 18)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(typeOfFlightLabel)
+                            .addComponent(typeOfFlightField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(19, 19, 19))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(paymentTypeLabel)
+                            .addComponent(creditRadioButton)
+                            .addComponent(cashRadioButton))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(debitRadioButton)
+                            .addComponent(otherPaymentRadioButton))
+                        .addGap(119, 152, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(flightWayLabel)
+                            .addComponent(oneWayRadioButton))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(roundWayRadioButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(priceLabel)
+                            .addComponent(priceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(buyTicketButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(26, 26, 26))))
         );
+
+        bGroup.add(oneWayRadioButton);
+        bGroup.add(roundWayRadioButton);
+        discountGroup.add(employeeDiscountRadioButton);
+        discountGroup.add(holidayDiscountRadioButton);
+        discountGroup.add(veteranDiscountRadioButton);
+        discountGroup.add(otherDiscountRadioButton);
+        yesNoGroup.add(yesRadioButton);
+        yesNoGroup.add(noRadioButton);
+        paymentTypeGroup.add(creditRadioButton);
+        paymentTypeGroup.add(debitRadioButton);
+        paymentTypeGroup.add(cashRadioButton);
+        discountGroup.add(noDiscountRadioButton);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    
+    private void phoneTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneTextFieldActionPerformed
+        
+        customerPhone = phoneTextField.getText();
+        
+        try {
+            con = new Connect().getConnection(); //this method is from Connection class
+            statement = con.createStatement();
+            
+            String cIdQuery = "SELECT cID FROM customers WHERE Phone = " + customerPhone;
+            
+            //if customer phone is inputted, grab the customer ID from using their phone number
+            if(customerPhone != null){
+                rs = statement.executeQuery(cIdQuery);
+                
+                while(rs.next()){
+                    cID = rs.getString(1);
+                } 
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Please enter a phone number");
+            }
+            
+            //get customer first name and last name from cID and display it
+            //can also use phone number instead of cID to grab the name
+            String fnQuery = "SELECT Fname FROM customers WHERE cID = " + cID;
+            ResultSet fnRS = statement.executeQuery(fnQuery);
+            while(fnRS.next()){
+                fName = fnRS.getString(1);
+            }
+            String lnQuery = "SELECT Lname FROM customers where cID = " + cID;
+            ResultSet lnRS = statement.executeQuery(lnQuery);
+            while(lnRS.next()){
+                lName = lnRS.getString(1);
+            }
+            firstNameField.setText(fName);
+            lastNameField.setText(lName);
+            customerPanel.setVisible(true);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Book.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Failed to locate customer");
+        } catch (Exception ex) {
+            Logger.getLogger(Book.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_phoneTextFieldActionPerformed
+
+    //select desired routes and pull the rID, cID, eID from the route
+    private void viewRoutesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewRoutesButtonActionPerformed
+        // TODO add your handling code here:
+        
+        try {
+            //open connection to make a query to get the aID of the airport code specified
+            //then use aID to get rID (airport id, route id, respectively)
+            
+            //opening connection
+            con = new Connect().getConnection();
+            
+            //store aid queries into strings
+            String fromAidQuery = "SELECT aID FROM airports WHERE airportCode = '" + fromAirport + "';";
+            String toAidQuery = "SELECT aID from airports WHERE airportCode = '" + toAirport + "';";
+            
+            //execute the queries and store ResultSet into String
+            ResultSet fromRS = statement.executeQuery(fromAidQuery);
+            while(fromRS.next()){
+                fromAID = fromRS.getString(1);
+            } 
+            
+            ResultSet toRS = statement.executeQuery(toAidQuery);
+            while(toRS.next()){
+                toAID = toRS.getString(1);
+            } 
+            
+            //now using aID to get rID
+            String ridQuery = "SELECT rID FROM routes WHERE fromAID = '" + fromAID 
+                    + "' AND toAID = '" + toAID +"' ;";
+            ResultSet ridRS = statement.executeQuery(ridQuery);
+            while(ridRS.next()){
+                rID = ridRS.getString(1);
+            }  
+            
+            //get eID from rID
+            String eidQuery = "SELECT eID from works WHERE rID = '" + rID + "';";
+            ResultSet eidRS = statement.executeQuery(eidQuery);
+            while(eidRS.next()){
+                eID = eidRS.getString(1);
+            }
+            
+            
+            
+        } catch (Exception ex) {
+            Logger.getLogger(Book.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_viewRoutesButtonActionPerformed
+
+    private void arrivalFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_arrivalFieldActionPerformed
+        // TODO add your handling code here:
+        arrivalTime = arrivalField.getText();
+    }//GEN-LAST:event_arrivalFieldActionPerformed
+
+    private void departureFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_departureFieldActionPerformed
+        // TODO add your handling code here:
+        departureTime = departureField.getText();
+    }//GEN-LAST:event_departureFieldActionPerformed
+
+    private void qtyFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_qtyFieldActionPerformed
+        // TODO add your handling code here:
+        qty = qtyField.getText();
+    }//GEN-LAST:event_qtyFieldActionPerformed
+
+    private void typeOfFlightFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeOfFlightFieldActionPerformed
+        // TODO add your handling code here:
+        typeOfFlight = typeOfFlightField.getText();
+    }//GEN-LAST:event_typeOfFlightFieldActionPerformed
+
+    //reserve flight aka buy ticket
+    private void buyTicketButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buyTicketButtonActionPerformed
+        // TODO add your handling code here:
+        
+        departureTime = departureField.getText();
+        arrivalTime = arrivalField.getText();
+        qty = qtyField.getText();
+        typeOfFlight = typeOfFlightField.getText();
+        
+        if(oneWayRadioButton.isSelected()){
+            flightWay = "0";
+        }
+        else if(roundWayRadioButton.isSelected()){
+            flightWay = "1";
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Please select one way or round way");
+        }
+        
+        String insertQuery = "INSERT INTO flightreservations(cID, rID, eID, DepartureTime, "
+                + " ArrivalTime, Qty, TypeOfFlight, flightWay) "
+                + "VALUES ( '" + cID + "', '" + rID + "', '" + eID + "', '" + departureTime + "', '" 
+                + arrivalTime + "', '" + qty + "', '" + typeOfFlight + "', '" + flightWay + "');";
+        
+        try {
+            con = new Connect().getConnection(); 
+            statement.executeUpdate(insertQuery);
+        } catch (Exception ex) {
+            Logger.getLogger(Book.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
+            String frIdQuery = "SELECT frID FROM flightreservations WHERE cID = " + cID; 
+            con = new Connect().getConnection();
+            ResultSet fridRS = statement.executeQuery(frIdQuery);
+            while(fridRS.next()){
+                frID = fridRS.getString(1);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Book.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
+            //pay for the ticket
+            //get price from routes table
+            con = new Connect().getConnection();
+            String priceQuery = "SELECT Price FROM routes WHERE rID = '" + rID + "';";
+            ResultSet priceRS = statement.executeQuery(priceQuery);
+            while(priceRS.next()){
+                price = priceRS.getString(1);
+            } 
+        } catch (Exception ex) {
+            Logger.getLogger(Book.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        //store price string into a var. of type double for manipulation
+        //we'll calc. whether customer has a carry-on or not first, then use the discount
+        double priceValue = Double.parseDouble(price);
+        
+        //carry-on or no carry-on?
+        if(yesRadioButton.isSelected()){
+            priceValue = priceValue + (priceValue * .05);
+            carryOn = "1";
+        }
+        else if(noRadioButton.isSelected()){
+            priceValue = priceValue;
+            carryOn = "0";
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Please select whether customer has a carry-on or not");
+        }
+        
+        //which discount type is selected?
+        if(employeeDiscountRadioButton.isSelected()){ //10% discount
+            priceValue = priceValue - (priceValue * .1);
+        }
+        else if(veteranDiscountRadioButton.isSelected()){ //10%
+            priceValue = priceValue - (priceValue * .1);
+        }
+        else if(holidayDiscountRadioButton.isSelected()){ //5%
+            priceValue = priceValue - (priceValue *.05);
+        }
+        else if(otherDiscountRadioButton.isSelected()){ //5%
+            priceValue = priceValue - (priceValue *.05);
+        }
+        else if(noDiscountRadioButton.isSelected()){ //0
+            priceValue = priceValue;
+        }
+        
+        
+        //determine which payment type
+        if(creditRadioButton.isSelected()){
+            paymentType = "credit";
+        }
+        else if(debitRadioButton.isSelected()){
+            paymentType = "debit";
+        }
+        else if(cashRadioButton.isSelected()){
+            paymentType = "cash";
+        }
+        else if(otherPaymentRadioButton.isSelected()){
+            paymentType = "other";
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Please select a payment type");
+        }
+        
+        //double price if it's a round way trip
+        if(flightWay == "1"){
+            priceValue = priceValue * 2;
+        }
+        
+        //mulitply ticket price by quanitity of tickets
+        double qtyValue = Double.parseDouble(qty);
+        double totalPriceValue = qtyValue * priceValue;
+        
+        //store total price
+        totalPrice = Double.toString(totalPriceValue);
+        
+        priceTextField.setText(totalPrice);
+        
+        //query to insert data into bills table
+        String insertBillsQuery = "INSERT INTO bills(Total, PaymentType, cID, frID, CarryOn) " 
+                + "VALUES ( '" + totalPrice + "', '" + paymentType + "', '" + cID + "', '" 
+                + frID + "', '" + carryOn + "');";
+        
+        try {
+            statement.executeUpdate(insertBillsQuery);
+        } catch (SQLException ex) {
+            Logger.getLogger(Book.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        //query to insert data into tickets table
+        //for now we'll assume only economy tickets available
+        classType = "economy";
+        String insertTicketsQuery = "INSERT INTO tickets(Price, Class, CarryOn) "
+                + "VALUES ( '" + totalPrice + "', '" + classType + "', '" + carryOn + "');";
+        try {
+            statement.executeUpdate(insertTicketsQuery);
+        } catch (SQLException ex) {
+            Logger.getLogger(Book.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_buyTicketButtonActionPerformed
+
+    private void fromBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fromBoxActionPerformed
+        // TODO add your handling code here:
+        //get fromAirport code
+        fromAirport = fromBox.getSelectedItem().toString();
+    }//GEN-LAST:event_fromBoxActionPerformed
+
+    private void toBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toBoxActionPerformed
+        // TODO add your handling code here:
+        //get toAirport code
+        toAirport = toBox.getSelectedItem().toString();
+    }//GEN-LAST:event_toBoxActionPerformed
+
+    
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -79,5 +792,46 @@ public class Book extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField arrivalField;
+    private javax.swing.JLabel arrivalLabel;
+    private javax.swing.JButton buyTicketButton;
+    private javax.swing.JLabel carryOnTextField;
+    private javax.swing.JRadioButton cashRadioButton;
+    private javax.swing.JRadioButton creditRadioButton;
+    private javax.swing.JPanel customerPanel;
+    private javax.swing.JRadioButton debitRadioButton;
+    private javax.swing.JTextField departureField;
+    private javax.swing.JLabel departureLabel;
+    private javax.swing.JRadioButton employeeDiscountRadioButton;
+    private javax.swing.JLabel enterPhoneLabel;
+    private javax.swing.JLabel enterRouteInfoLabel;
+    private javax.swing.JTextField firstNameField;
+    private javax.swing.JLabel flightWayLabel;
+    private javax.swing.JComboBox fromBox;
+    private javax.swing.JLabel fromLabel;
+    private javax.swing.JRadioButton holidayDiscountRadioButton;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JTextField lastNameField;
+    private javax.swing.JRadioButton noDiscountRadioButton;
+    private javax.swing.JRadioButton noRadioButton;
+    private javax.swing.JRadioButton oneWayRadioButton;
+    private javax.swing.JRadioButton otherDiscountRadioButton;
+    private javax.swing.JRadioButton otherPaymentRadioButton;
+    private javax.swing.JLabel paymentTypeLabel;
+    private javax.swing.JTextField phoneTextField;
+    private javax.swing.JLabel priceLabel;
+    private javax.swing.JTextField priceTextField;
+    private javax.swing.JTextField qtyField;
+    private javax.swing.JLabel qtyLabel;
+    private javax.swing.JRadioButton roundWayRadioButton;
+    private javax.swing.JComboBox toBox;
+    private javax.swing.JLabel toLabel;
+    private javax.swing.JTextField typeOfFlightField;
+    private javax.swing.JLabel typeOfFlightLabel;
+    private javax.swing.JRadioButton veteranDiscountRadioButton;
+    private javax.swing.JButton viewRoutesButton;
+    private javax.swing.JRadioButton yesRadioButton;
     // End of variables declaration//GEN-END:variables
 }
