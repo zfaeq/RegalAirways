@@ -173,9 +173,10 @@ String toCode;
                                                 .addComponent(toLbl))
                                             .addGap(34, 34, 34)))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(arrivalLbl)
-                                        .addGap(54, 54, 54))
-                                    .addComponent(jLabel6))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(arrivalLbl)
+                                            .addComponent(jLabel6))
+                                        .addGap(54, 54, 54)))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(arrivalfromLbl)
                                     .addComponent(arrivalRoundLbl)
@@ -228,9 +229,9 @@ String toCode;
                                     .addComponent(fromLbl)
                                     .addComponent(fromairportLbl))
                                 .addGap(32, 32, 32)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(toLbl)
-                                    .addComponent(toairportLbl))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(toairportLbl, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(toLbl))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel5)
@@ -308,7 +309,7 @@ String toCode;
         // use cID to grab itinerary
         con = new Connect().getConnection();
         statement = con.createStatement();
-         String itinerary="select*from(Select customers.cID, customers.Fname,customers.Lname, flightreservations.DepartureTime, flightreservations.ArrivialTime,flightreservations.flightWay, routes.fromAID, routes.toAID from flightreservations join customers using(cID) join routes using(rID)) as t1 where cID="+cID+";";
+         String itinerary="select*from(Select customers.cID, customers.Fname,customers.Lname, flightreservations.DepartureTime, flightreservations.ArrivalTime,flightreservations.flightWay, routes.fromAID, routes.toAID from flightreservations join customers using(cID) join routes using(rID)) as t1 where cID="+cID+";";
         rs2= statement.executeQuery(itinerary);
         while(rs2.next()){
             
